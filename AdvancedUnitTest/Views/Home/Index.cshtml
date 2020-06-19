@@ -1,24 +1,37 @@
-﻿@model Student[]
+﻿@model IEnumerable<Student>
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <h1>Students</h1>
-<table>
+<table class="table">
     <thead>
         <tr>
-            <td>FirstMidName</td>
-            <td>LastName</td>
-            <td>EnrollmentDate</td>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.LastName)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstMidName)
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.EnrollmentDate)</a>
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var student in this.Model)
+        @foreach (var item in this.Model)
         {
             <tr>
-                <td>@student.FirstMidName</td>
-                <td>@student.LastName</td>
-                <td>@student.EnrollmentDate</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstMidName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnrollmentDate)
+                </td>
             </tr>
         }
     </tbody>

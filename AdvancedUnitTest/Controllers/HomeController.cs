@@ -3,6 +3,7 @@ using System.Linq;
 using AdvancedUnitTest.Data;
 using AdvancedUnitTest.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AdvancedUnitTest.Controllers
@@ -18,13 +19,35 @@ namespace AdvancedUnitTest.Controllers
             this.logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder)
         {
             using var db = new SchoolContext();
 
-            var students = db.Students.ToArray();
+            this.ViewData["NameSortParm"] =
+                string.IsNullOrEmpty(sortOrder) ? "name_desc" : string.Empty;
 
-            return this.View(students);
+            this.ViewData["DateSortParm"] =
+                sortOrder == "Date" ? "date_desc" : "date";
+
+            var students = db.Students.AsQueryable();
+
+            switch (sortOrder)
+            {
+            case "name_desc":
+                students = students.OrderByDescending(s => s.LastName);
+                break;
+            case "date":
+                students = students.OrderBy(s => s.EnrollmentDate);
+                break;
+            case "date_desc":
+                students = students.OrderByDescending(s => s.EnrollmentDate);
+                break;
+            default:
+                students = students.OrderBy(s => s.LastName);
+                break;
+            }
+
+            return this.View(students.AsNoTracking().ToList());
         }
 
         public IActionResult Privacy()
