@@ -1,8 +1,25 @@
-﻿@{
+﻿@model Student[]
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Students</h1>
+<table>
+    <thead>
+        <tr>
+            <td>FirstMidName</td>
+            <td>LastName</td>
+            <td>EnrollmentDate</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in this.Model)
+        {
+            <tr>
+                <td>@student.FirstMidName</td>
+                <td>@student.LastName</td>
+                <td>@student.EnrollmentDate</td>
+            </tr>
+        }
+    </tbody>
+</table>

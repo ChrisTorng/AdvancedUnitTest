@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Linq;
+using AdvancedUnitTest.Data;
 using AdvancedUnitTest.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,7 +20,11 @@ namespace AdvancedUnitTest.Controllers
 
         public IActionResult Index()
         {
-            return this.View();
+            using var db = new SchoolContext();
+
+            var students = db.Students.ToArray();
+
+            return this.View(students);
         }
 
         public IActionResult Privacy()
