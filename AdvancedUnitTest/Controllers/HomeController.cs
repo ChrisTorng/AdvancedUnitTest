@@ -19,7 +19,7 @@ namespace AdvancedUnitTest.Controllers
             this.logger = logger;
         }
 
-        public IActionResult Index(string sortOrder)
+        public IActionResult Index(string sortOrder, string searchString)
         {
             using var db = new SchoolContext();
 
@@ -29,7 +29,17 @@ namespace AdvancedUnitTest.Controllers
             this.ViewData["DateSortParm"] =
                 sortOrder == "date" ? "date_desc" : "date";
 
+            this.ViewData["SearchString"] = searchString;
+
             var students = db.Students.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+#pragma warning disable CA1307 // Specify StringComparison
+                students = students.Where(s => s.LastName.Contains(searchString)
+                                       || s.FirstMidName.Contains(searchString));
+#pragma warning restore CA1307 // Specify StringComparison
+            }
 
             students = sortOrder switch
             {
