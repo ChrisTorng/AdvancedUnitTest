@@ -1,7 +1,6 @@
-﻿using AdvancedUnitTest.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace AdvancedUnitTest.Data
+namespace SchoolDatabase
 {
     public class SchoolContext : DbContext
     {

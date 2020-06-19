@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Linq;
-using AdvancedUnitTest.Data;
 using AdvancedUnitTest.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SchoolDatabase;
 
 namespace AdvancedUnitTest.Controllers
 {
@@ -27,25 +27,17 @@ namespace AdvancedUnitTest.Controllers
                 string.IsNullOrEmpty(sortOrder) ? "name_desc" : string.Empty;
 
             this.ViewData["DateSortParm"] =
-                sortOrder == "Date" ? "date_desc" : "date";
+                sortOrder == "date" ? "date_desc" : "date";
 
             var students = db.Students.AsQueryable();
 
-            switch (sortOrder)
+            students = sortOrder switch
             {
-            case "name_desc":
-                students = students.OrderByDescending(s => s.LastName);
-                break;
-            case "date":
-                students = students.OrderBy(s => s.EnrollmentDate);
-                break;
-            case "date_desc":
-                students = students.OrderByDescending(s => s.EnrollmentDate);
-                break;
-            default:
-                students = students.OrderBy(s => s.LastName);
-                break;
-            }
+                "name_desc" => students.OrderByDescending(s => s.LastName),
+                "date" => students.OrderBy(s => s.EnrollmentDate),
+                "date_desc" => students.OrderByDescending(s => s.EnrollmentDate),
+                _ => students.OrderBy(s => s.LastName),
+            };
 
             return this.View(students.AsNoTracking().ToList());
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using AdvancedUnitTest.Models;
+using SchoolDatabase;
 
 namespace AdvancedUnitTest.Data
 {
