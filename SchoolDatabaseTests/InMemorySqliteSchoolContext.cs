@@ -9,7 +9,6 @@ namespace SchoolDatabase.Tests
     internal class InMemorySqliteSchoolContext : ISchoolDatabase
     {
         private readonly DbConnection connection;
-        private readonly SchoolContext schoolContext;
         private bool disposed = false;
 
         private static DbConnection CreateInMemoryDatabase()
@@ -24,11 +23,11 @@ namespace SchoolDatabase.Tests
         public InMemorySqliteSchoolContext()
         {
             this.connection = CreateInMemoryDatabase();
-            this.schoolContext = new SchoolContext(new DbContextOptionsBuilder<SchoolContext>()
+            this.SchoolContext = new SchoolContext(new DbContextOptionsBuilder<SchoolContext>()
                 .UseSqlite(this.connection)
                 .Options);
 
-            this.schoolContext.Database.EnsureCreated();
+            this.SchoolContext.Database.EnsureCreated();
         }
 
         protected virtual void Dispose(bool disposing)
@@ -40,7 +39,7 @@ namespace SchoolDatabase.Tests
 
             if (disposing)
             {
-                this.schoolContext.Dispose();
+                this.SchoolContext.Dispose();
                 this.connection.Dispose();
             }
 
@@ -53,7 +52,9 @@ namespace SchoolDatabase.Tests
             GC.SuppressFinalize(this);
         }
 
+        public SchoolContext SchoolContext { get; }
+
         public IQueryable<Student> Students =>
-            this.schoolContext.Students;
+            this.SchoolContext.Students;
     }
 }
