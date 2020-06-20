@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace SchoolDatabase
 {
-    public class SchoolContext : DbContext
+    public class SchoolContext : DbContext, ISchoolDatabase
     {
         public SchoolContext()
         {
@@ -17,5 +18,8 @@ namespace SchoolDatabase
             => optionsBuilder.UseSqlite("Data Source=SchoolContext.db");
 
         public DbSet<Student> Students { get; set; }
+
+        IQueryable<Student> ISchoolDatabase.Students =>
+            this.Students;
     }
 }

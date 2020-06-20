@@ -21,7 +21,8 @@ namespace AdvancedUnitTest.Controllers
 
         public IActionResult Index(string sortOrder, string searchString)
         {
-            using var db = new SchoolContext();
+            using var schoolContent = new SchoolContext();
+            var db = new StudentRepository(schoolContent);
 
             this.ViewData["NameSortParm"] =
                 string.IsNullOrEmpty(sortOrder) ? "name_desc" : string.Empty;
@@ -31,7 +32,7 @@ namespace AdvancedUnitTest.Controllers
 
             this.ViewData["SearchString"] = searchString;
 
-            var students = db.Students.AsQueryable();
+            var students = db.CurrentStudents;
 
             if (!string.IsNullOrEmpty(searchString))
             {
