@@ -6,6 +6,9 @@ namespace SchoolDatabase
     public class SchoolContext : DbContext, ISchoolDatabase
     {
         public SchoolContext()
+            : base(new DbContextOptionsBuilder<SchoolContext>()
+                .UseSqlite("Data Source=SchoolContext.db")
+                .Options)
         {
         }
 
@@ -13,9 +16,6 @@ namespace SchoolDatabase
             : base(options)
         {
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseSqlite("Data Source=SchoolContext.db");
 
         public DbSet<Student> Students { get; set; }
 
