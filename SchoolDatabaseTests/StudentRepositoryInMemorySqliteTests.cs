@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Linq;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -9,11 +8,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace SchoolDatabase.Tests
 {
     [TestClass]
-    public class StudentRepositoryInMemorySqliteTests : IDisposable
+#pragma warning disable CA1001 // Types that own disposable fields should be disposable
+    public class StudentRepositoryInMemorySqliteTests
+#pragma warning restore CA1001 // Types that own disposable fields should be disposable
     {
         private DbConnection connection;
         private SchoolContext schoolContext;
-        private bool disposed = false;
 
         private static DbConnection CreateInMemoryDatabase()
         {
@@ -35,26 +35,18 @@ namespace SchoolDatabase.Tests
             this.schoolContext.Database.EnsureCreated();
         }
 
-        protected virtual void Dispose(bool disposing)
+        [TestCleanup]
+        public void TestCleanup()
         {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            if (disposing)
+            if (this.schoolContext != null)
             {
                 this.schoolContext.Dispose();
-                this.connection.Dispose();
             }
 
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
+            if (this.connection != null)
+            {
+                this.connection.Dispose();
+            }
         }
 
         [TestMethod]
