@@ -1,12 +1,11 @@
-﻿using System;
-using System.Data.Common;
-using System.Linq;
+﻿using System.Data.Common;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace SchoolDatabase.Tests
 {
-    internal class InMemorySqliteSchoolContext : ISchoolDatabase
+    internal class InMemorySqliteSchoolContext : BaseSchoolDatabase
     {
         private readonly DbConnection connection;
         private bool disposed = false;
@@ -21,16 +20,16 @@ namespace SchoolDatabase.Tests
         }
 
         public InMemorySqliteSchoolContext()
+            : base(new DbContextOptionsBuilder<SchoolContext>()
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                .UseSqlite(CreateInMemoryDatabase())
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                .Options)
         {
-            this.connection = CreateInMemoryDatabase();
-            this.SchoolContext = new SchoolContext(new DbContextOptionsBuilder<SchoolContext>()
-                .UseSqlite(this.connection)
-                .Options);
-
-            this.SchoolContext.Database.EnsureCreated();
+            this.connection = RelationalOptionsExtension.Extract(this.ContextOptions).Connection;
         }
 
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (this.disposed)
             {
@@ -39,22 +38,12 @@ namespace SchoolDatabase.Tests
 
             if (disposing)
             {
-                this.SchoolContext.Dispose();
                 this.connection.Dispose();
             }
 
             this.disposed = true;
+
+            base.Dispose(disposing);
         }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public SchoolContext SchoolContext { get; }
-
-        public IQueryable<Student> Students =>
-            this.SchoolContext.Students;
     }
 }
