@@ -13,7 +13,7 @@ namespace AdvancedUnitTest.Data
                 throw new ArgumentNullException(nameof(context));
             }
 
-            ////context.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
             // Look for any students.
             if (context.Students.Any())
