@@ -10,21 +10,19 @@ namespace AdvancedUnitTest.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ISchoolDatabase schoolDatabase;
+        private readonly StudentRepository studentRepository;
 #pragma warning disable IDE0052 // Remove unread private members
         private readonly ILogger<HomeController> logger;
 #pragma warning restore IDE0052 // Remove unread private members
 
-        public HomeController(ILogger<HomeController> logger, ISchoolDatabase schoolDatabase)
+        public HomeController(ILogger<HomeController> logger, StudentRepository studentRepository)
         {
             this.logger = logger;
-            this.schoolDatabase = schoolDatabase;
+            this.studentRepository = studentRepository;
         }
 
         public IActionResult Index(string sortOrder, string searchString)
         {
-            var db = new StudentRepository(this.schoolDatabase);
-
             this.ViewData["NameSortParm"] =
                 string.IsNullOrEmpty(sortOrder) ? "name_desc" : string.Empty;
 
@@ -33,7 +31,7 @@ namespace AdvancedUnitTest.Controllers
 
             this.ViewData["SearchString"] = searchString;
 
-            var students = db.CurrentStudents;
+            var students = this.studentRepository.CurrentStudents;
 
             if (!string.IsNullOrEmpty(searchString))
             {
