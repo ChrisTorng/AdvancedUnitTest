@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SchoolDatabase.Tests
 {
-    internal class InMemorySqliteSchoolContext : IBaseSchoolDatabase
+    internal class InMemorySqliteSchoolContext : ISchoolDatabase
     {
         private readonly DbConnection connection;
         private readonly SchoolContext schoolContext;
@@ -25,7 +25,7 @@ namespace SchoolDatabase.Tests
             return connection;
         }
 
-        public InMemorySqliteSchoolContext()
+        public InMemorySqliteSchoolContext(IEnumerable<Student> students = null)
         {
             this.connection = CreateInMemoryDatabase();
             this.schoolContext = new SchoolContext(new DbContextOptionsBuilder<SchoolContext>()
@@ -35,6 +35,12 @@ namespace SchoolDatabase.Tests
                 .Options);
 
             this.schoolContext.Database.EnsureCreated();
+
+            if (students != null)
+            {
+                this.schoolContext.Students.AddRange(students);
+                this.schoolContext.SaveChanges();
+            }
         }
 
         protected virtual void Dispose(bool disposing)
@@ -57,12 +63,6 @@ namespace SchoolDatabase.Tests
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        public void AddStudents(IEnumerable<Student> students)
-        {
-            this.schoolContext.AddRange(students);
-            this.schoolContext.SaveChanges();
         }
     }
 }

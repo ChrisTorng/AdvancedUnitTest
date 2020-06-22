@@ -21,9 +21,7 @@ namespace SchoolDatabase.Tests
         [TestMethod]
         public void MockSchoolDatabase_StudentRepository_AllStudentsQuery_Test()
         {
-            using var schoolContext = new MockSchoolDatabase();
-
-            schoolContext.AddStudents(new Student[]
+            using var schoolContext = new MockSchoolDatabase(new Student[]
                 {
                     new Student
                     {

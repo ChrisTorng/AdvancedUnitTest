@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SchoolDatabase.Tests
 {
-    internal class InMemoryDatabaseSchoolContext : IBaseSchoolDatabase
+    internal class InMemoryDatabaseSchoolContext : ISchoolDatabase
     {
         private readonly SchoolContext schoolContext;
         private bool disposed = false;
@@ -13,19 +13,19 @@ namespace SchoolDatabase.Tests
         public IQueryable<Student> Students =>
             this.schoolContext.Students;
 
-        public InMemoryDatabaseSchoolContext()
+        public InMemoryDatabaseSchoolContext(IEnumerable<Student> students = null)
         {
             this.schoolContext = new SchoolContext(new DbContextOptionsBuilder<SchoolContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options);
 
             this.schoolContext.Database.EnsureCreated();
-        }
 
-        public void AddStudents(IEnumerable<Student> students)
-        {
-            this.schoolContext.AddRange(students);
-            this.schoolContext.SaveChanges();
+            if (students != null)
+            {
+                this.schoolContext.Students.AddRange(students);
+                this.schoolContext.SaveChanges();
+            }
         }
 
         public virtual void Dispose(bool disposing)

@@ -20,9 +20,7 @@ namespace SchoolDatabase.Tests
         [TestMethod]
         public void InMemorySqlite_StudentRepository_AllStudentsQuery_Test()
         {
-            using var schoolContext = new InMemorySqliteSchoolContext();
-
-            schoolContext.AddStudents(new Student[]
+            using var schoolContext = new InMemorySqliteSchoolContext(new Student[]
                 {
                     new Student
                     {

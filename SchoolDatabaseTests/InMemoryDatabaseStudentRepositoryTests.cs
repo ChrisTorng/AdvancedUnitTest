@@ -20,9 +20,7 @@ namespace SchoolDatabase.Tests
         [TestMethod]
         public void InMemoryDatabase_StudentRepository_AllStudentsQuery_Test()
         {
-            using var schoolContext = new InMemoryDatabaseSchoolContext();
-
-            schoolContext.AddStudents(new Student[]
+            using var schoolContext = new InMemoryDatabaseSchoolContext(new Student[]
                 {
                     new Student
                     {
@@ -52,8 +50,7 @@ namespace SchoolDatabase.Tests
         public void InMemoryDatabase_Test()
         {
             using var schoolContext1 = new InMemoryDatabaseSchoolContext();
-            using var schoolContext2 = new InMemoryDatabaseSchoolContext();
-            schoolContext2.AddStudents(new Student[]
+            using var schoolContext2 = new InMemoryDatabaseSchoolContext(new Student[]
                 {
                     new Student
                     {

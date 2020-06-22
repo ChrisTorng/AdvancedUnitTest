@@ -4,19 +4,14 @@ using System.Linq;
 
 namespace SchoolDatabase.Tests
 {
-    internal class MockSchoolDatabase : IBaseSchoolDatabase
+    internal class MockSchoolDatabase : ISchoolDatabase
     {
-        public MockSchoolDatabase()
+        public MockSchoolDatabase(IEnumerable<Student> students = null)
         {
-            this.Students = Array.Empty<Student>().AsQueryable();
+            this.Students = students?.AsQueryable() ?? Array.Empty<Student>().AsQueryable();
         }
 
-        public IQueryable<Student> Students { get; private set; }
-
-        public void AddStudents(IEnumerable<Student> students)
-        {
-            this.Students = students.AsQueryable();
-        }
+        public IQueryable<Student> Students { get; }
 
         public void Dispose()
         {
