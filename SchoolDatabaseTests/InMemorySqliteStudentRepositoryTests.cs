@@ -9,7 +9,7 @@ namespace SchoolDatabase.Tests
     public class InMemorySqliteStudentRepositoryTests
     {
         [TestMethod]
-        public void InMemorySqlite_StudentRepository_EmptyAllStudents_Test()
+        public void StudentRepository_EmptyAllStudents_Test()
         {
             using var schoolContext = new InMemorySqliteSchoolContext();
 
@@ -18,7 +18,7 @@ namespace SchoolDatabase.Tests
         }
 
         [TestMethod]
-        public void InMemorySqlite_StudentRepository_AllStudentsQuery_Test()
+        public void StudentRepository_AllStudentsQuery_Test()
         {
             using var schoolContext = new InMemorySqliteSchoolContext(new Student[]
                 {

@@ -9,7 +9,7 @@ namespace SchoolDatabase.Tests
     public class MockStudentRepositoryTests
     {
         [TestMethod]
-        public void MockSchoolDatabase_StudentRepository_EmptyAllStudents_Test()
+        public void StudentRepository_EmptyAllStudents_Test()
         {
             using var schoolContext = new MockSchoolDatabase();
 
@@ -19,7 +19,7 @@ namespace SchoolDatabase.Tests
         }
 
         [TestMethod]
-        public void MockSchoolDatabase_StudentRepository_AllStudentsQuery_Test()
+        public void StudentRepository_AllStudentsQuery_Test()
         {
             using var schoolContext = new MockSchoolDatabase(new Student[]
                 {
