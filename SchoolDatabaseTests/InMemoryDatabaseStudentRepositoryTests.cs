@@ -6,41 +6,23 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace SchoolDatabase.Tests
 {
     [TestClass]
-    public class StudentRepositoryTests
+    public class InMemoryDatabaseStudentRepositoryTests
     {
-        private static void StudentRepository_EmptyAllStudents_Test(IBaseSchoolDatabase schoolDatabase)
-        {
-            var studentRepository = new StudentRepository(schoolDatabase);
-            Assert.IsFalse(studentRepository.AllStudents.Any());
-        }
-
-        [TestMethod]
-        public void InMemorySqlite_StudentRepository_EmptyAllStudents_Test()
-        {
-            using var schoolContext = new InMemorySqliteSchoolContext();
-
-            StudentRepository_EmptyAllStudents_Test(schoolContext);
-        }
-
         [TestMethod]
         public void InMemoryDatabase_StudentRepository_EmptyAllStudents_Test()
         {
             using var schoolContext = new InMemoryDatabaseSchoolContext();
 
-            StudentRepository_EmptyAllStudents_Test(schoolContext);
+            var studentRepository = new StudentRepository(schoolContext);
+            Assert.IsFalse(studentRepository.AllStudents.Any());
         }
 
         [TestMethod]
-        public void MockSchoolDatabase_StudentRepository_EmptyAllStudents_Test()
+        public void InMemoryDatabase_StudentRepository_AllStudentsQuery_Test()
         {
-            using var schoolContext = new MockSchoolDatabase();
+            using var schoolContext = new InMemoryDatabaseSchoolContext();
 
-            StudentRepository_EmptyAllStudents_Test(schoolContext);
-        }
-
-        private static void StudentRepository_AllStudentsQuery_Test(IBaseSchoolDatabase schoolDatabase)
-        {
-            schoolDatabase.AddStudents(new Student[]
+            schoolContext.AddStudents(new Student[]
                 {
                     new Student
                     {
@@ -56,7 +38,7 @@ namespace SchoolDatabase.Tests
                     },
                 });
 
-            var studentRepository = new StudentRepository(schoolDatabase);
+            var studentRepository = new StudentRepository(schoolContext);
             Assert.IsTrue(studentRepository.AllStudents.Any());
             Assert.AreEqual(2, studentRepository.AllStudents.Count());
 
@@ -64,30 +46,6 @@ namespace SchoolDatabase.Tests
                 .Where(s => s.FirstMidName == "c").Single();
             Assert.AreEqual("d", student.LastName);
             Assert.AreEqual(new DateTime(3, 3, 3), student.EnrollmentDate);
-        }
-
-        [TestMethod]
-        public void InMemorySqlite_StudentRepository_AllStudentsQuery_Test()
-        {
-            using var schoolContext = new InMemorySqliteSchoolContext();
-
-            StudentRepository_AllStudentsQuery_Test(schoolContext);
-        }
-
-        [TestMethod]
-        public void InMemoryDatabase_StudentRepository_AllStudentsQuery_Test()
-        {
-            using var schoolContext = new InMemoryDatabaseSchoolContext();
-
-            StudentRepository_AllStudentsQuery_Test(schoolContext);
-        }
-
-        [TestMethod]
-        public void MockSchoolDatabase_StudentRepository_AllStudentsQuery_Test()
-        {
-            using var schoolContext = new MockSchoolDatabase();
-
-            StudentRepository_AllStudentsQuery_Test(schoolContext);
         }
 
         [TestMethod]
