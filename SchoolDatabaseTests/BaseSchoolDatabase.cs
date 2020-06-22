@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SchoolDatabase.Tests
 {
-    internal abstract class BaseSchoolDatabase : ISchoolDatabase
+    internal abstract class BaseSchoolDatabase : IBaseSchoolDatabase
     {
         protected DbContextOptions<SchoolContext> ContextOptions { get; }
 

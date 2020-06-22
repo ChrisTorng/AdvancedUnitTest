@@ -8,7 +8,7 @@ namespace SchoolDatabase.Tests
     [TestClass]
     public class StudentRepositoryTests
     {
-        private static void StudentRepository_EmptyAllStudents_Test(BaseSchoolDatabase schoolDatabase)
+        private static void StudentRepository_EmptyAllStudents_Test(IBaseSchoolDatabase schoolDatabase)
         {
             var studentRepository = new StudentRepository(schoolDatabase);
             Assert.IsFalse(studentRepository.AllStudents.Any());
@@ -30,7 +30,15 @@ namespace SchoolDatabase.Tests
             StudentRepository_EmptyAllStudents_Test(schoolContext);
         }
 
-        private static void StudentRepository_AllStudentsQuery_Test(BaseSchoolDatabase schoolDatabase)
+        [TestMethod]
+        public void MockSchoolDatabase_StudentRepository_EmptyAllStudents_Test()
+        {
+            using var schoolContext = new MockSchoolDatabase();
+
+            StudentRepository_EmptyAllStudents_Test(schoolContext);
+        }
+
+        private static void StudentRepository_AllStudentsQuery_Test(IBaseSchoolDatabase schoolDatabase)
         {
             schoolDatabase.AddStudents(new Student[]
                 {
@@ -70,6 +78,14 @@ namespace SchoolDatabase.Tests
         public void InMemoryDatabase_StudentRepository_AllStudentsQuery_Test()
         {
             using var schoolContext = new InMemoryDatabaseSchoolContext();
+
+            StudentRepository_AllStudentsQuery_Test(schoolContext);
+        }
+
+        [TestMethod]
+        public void MockSchoolDatabase_StudentRepository_AllStudentsQuery_Test()
+        {
+            using var schoolContext = new MockSchoolDatabase();
 
             StudentRepository_AllStudentsQuery_Test(schoolContext);
         }
