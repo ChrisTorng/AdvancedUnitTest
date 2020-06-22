@@ -25,7 +25,7 @@ namespace AdvancedUnitTest.Controllers
         public IActionResult Index(string sortOrder, string searchString)
         {
             using var schoolContent = new SchoolContext(new DbContextOptionsBuilder<SchoolContext>()
-                .UseSqlServer(this.configuration.GetConnectionString("LocalDBSchoolContext"))
+                .UseSqlServer(this.configuration.GetConnectionString("SchoolContext"))
                 .Options);
 
             var db = new StudentRepository(schoolContent);

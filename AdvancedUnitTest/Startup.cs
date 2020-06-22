@@ -23,8 +23,7 @@ namespace AdvancedUnitTest
             services.AddControllersWithViews();
 
             services.AddDbContext<SchoolContext>(options =>
-                options.UseSqlServer(this.Configuration.GetConnectionString("LocalDBSchoolContext")));
-            ////    options.UseSqlite(this.Configuration.GetConnectionString("SqliteSchoolContext")));
+                options.UseSqlServer(this.Configuration.GetConnectionString("SchoolContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
