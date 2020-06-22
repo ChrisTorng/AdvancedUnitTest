@@ -3,7 +3,6 @@ using System.Linq;
 using AdvancedUnitTest.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SchoolDatabase;
 
@@ -11,24 +10,20 @@ namespace AdvancedUnitTest.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IConfiguration configuration;
+        private readonly SchoolContext schoolContext;
 #pragma warning disable IDE0052 // Remove unread private members
         private readonly ILogger<HomeController> logger;
 #pragma warning restore IDE0052 // Remove unread private members
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
+        public HomeController(ILogger<HomeController> logger, SchoolContext schoolContext)
         {
             this.logger = logger;
-            this.configuration = configuration;
+            this.schoolContext = schoolContext;
         }
 
         public IActionResult Index(string sortOrder, string searchString)
         {
-            using var schoolContent = new SchoolContext(new DbContextOptionsBuilder<SchoolContext>()
-                .UseSqlServer(this.configuration.GetConnectionString("SchoolContext"))
-                .Options);
-
-            var db = new StudentRepository(schoolContent);
+            var db = new StudentRepository(this.schoolContext);
 
             this.ViewData["NameSortParm"] =
                 string.IsNullOrEmpty(sortOrder) ? "name_desc" : string.Empty;
