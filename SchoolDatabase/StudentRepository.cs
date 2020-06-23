@@ -15,7 +15,7 @@ namespace SchoolDatabase
         public IQueryable<Student> AllStudents =>
             this.schoolDatabase.Students;
 
-        public IQueryable<Student> CurrentStudents
+        public static DateTime CurrentStudentsStartDate
         {
             get
             {
@@ -23,11 +23,12 @@ namespace SchoolDatabase
                 var thisYearStartDate = isNextYear
                     ? new DateTime(DateTime.Now.Year - 1, 8, 1)
                     : new DateTime(DateTime.Now.Year, 8, 1);
-                var currentStudentsYearStartDate = thisYearStartDate.AddYears(-2);
-
-                return this.schoolDatabase.Students.Where(s =>
-                    s.EnrollmentDate >= currentStudentsYearStartDate);
+                return thisYearStartDate.AddYears(-2);
             }
         }
+
+        public IQueryable<Student> CurrentStudents =>
+            this.schoolDatabase.Students.Where(s =>
+                s.EnrollmentDate >= CurrentStudentsStartDate);
     }
 }

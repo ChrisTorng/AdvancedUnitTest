@@ -46,5 +46,11 @@ namespace SchoolDatabase.Tests
             Assert.AreEqual("d", student.LastName);
             Assert.AreEqual(new DateTime(3, 3, 3), student.EnrollmentDate);
         }
+
+        [TestMethod]
+        public void StudentRepository_CurrentStudentsStartDate_Test()
+        {
+            Assert.AreEqual(new DateTime(2017, 8, 1), StudentRepository.CurrentStudentsStartDate);
+        }
     }
 }
