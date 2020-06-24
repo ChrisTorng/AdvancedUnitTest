@@ -48,17 +48,18 @@ namespace SchoolDatabase.Tests
         }
 
         [TestMethod]
-        public void StudentRepository_CurrentStudentsStartDate_Test()
+        [DataRow(2020, 7, 31, 2017, 8, 1)]
+        [DataRow(2020, 8, 1, 2018, 8, 1)]
+        public void StudentRepository_CurrentStudentsStartDate_Test(
+            int inputYear, int inputMonth, int inputDay,
+            int expectedYear, int expectedMonth, int expectedDay)
         {
             using var schoolContext = new MockSchoolDatabase();
-            var dateTime = new MockDateTime(new DateTime(2020, 7, 31));
+            var dateTime = new MockDateTime(new DateTime(inputYear, inputMonth, inputDay));
 
             var studentRepository = new StudentRepository(schoolContext, dateTime);
-            Assert.AreEqual(new DateTime(2017, 8, 1), studentRepository.CurrentStudentsStartDate);
-
-            dateTime = new MockDateTime(new DateTime(2020, 8, 1));
-            studentRepository = new StudentRepository(schoolContext, dateTime);
-            Assert.AreEqual(new DateTime(2018, 8, 1), studentRepository.CurrentStudentsStartDate);
+            Assert.AreEqual(new DateTime(expectedYear, expectedMonth, expectedDay),
+                studentRepository.CurrentStudentsStartDate);
         }
     }
 }
