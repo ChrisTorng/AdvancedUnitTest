@@ -47,9 +47,10 @@ namespace SchoolDatabase.Tests
             Assert.AreEqual(new DateTime(3, 3, 3), student.EnrollmentDate);
         }
 
-        [TestMethod]
+        [DataTestMethod]
         [DataRow(2020, 7, 31, 2017, 8, 1)]
         [DataRow(2020, 8, 1, 2018, 8, 1)]
+        [DataRow(2021, 8, 1, 2019, 8, 1)]
         public void StudentRepository_CurrentStudentsStartDate_Test(
             int inputYear, int inputMonth, int inputDay,
             int expectedYear, int expectedMonth, int expectedDay)
@@ -60,6 +61,41 @@ namespace SchoolDatabase.Tests
             var studentRepository = new StudentRepository(schoolContext, dateTime);
             Assert.AreEqual(new DateTime(expectedYear, expectedMonth, expectedDay),
                 studentRepository.CurrentStudentsStartDate);
+        }
+
+        [TestMethod]
+        public void StudentRepository_CurrentStudents_Test()
+        {
+            var allStudents = new Student[]
+            {
+                new Student
+                {
+                    FirstMidName = "a",
+                    LastName = "b",
+                    EnrollmentDate = new DateTime(2018, 8, 1),
+                },
+                new Student
+                {
+                    FirstMidName = "c",
+                    LastName = "d",
+                    EnrollmentDate = new DateTime(2018, 7, 31),
+                },
+            };
+
+            using var schoolContext = new MockSchoolDatabase(allStudents);
+            var dateTime = new MockDateTime(new DateTime(2020, 7, 31));
+            var studentRepository = new StudentRepository(schoolContext, dateTime);
+            CollectionAssert.AreEqual(allStudents, studentRepository.CurrentStudents.ToArray());
+
+            dateTime = new MockDateTime(new DateTime(2020, 8, 1));
+            studentRepository = new StudentRepository(schoolContext, dateTime);
+            CollectionAssert.AreEqual(new[] { allStudents[0] },
+                studentRepository.CurrentStudents.ToArray());
+
+            dateTime = new MockDateTime(new DateTime(2021, 8, 1));
+            studentRepository = new StudentRepository(schoolContext, dateTime);
+            Assert.AreEqual(0,
+                studentRepository.CurrentStudents.ToArray().Length);
         }
     }
 }

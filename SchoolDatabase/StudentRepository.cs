@@ -23,8 +23,8 @@ namespace SchoolDatabase
             {
                 var isNextYear = this.dateTime.Now.Month < 8;
                 var thisYearStartDate = isNextYear
-                    ? new DateTime(DateTime.Now.Year - 1, 8, 1)
-                    : new DateTime(DateTime.Now.Year, 8, 1);
+                    ? new DateTime(this.dateTime.Now.Year - 1, 8, 1)
+                    : new DateTime(this.dateTime.Now.Year, 8, 1);
                 return thisYearStartDate.AddYears(-2);
             }
         }
