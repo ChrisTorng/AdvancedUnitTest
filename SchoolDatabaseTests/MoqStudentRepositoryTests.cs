@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -67,8 +68,9 @@ namespace SchoolDatabase.Tests
                 studentRepository.CurrentStudentsStartDate);
         }
 
-        [TestMethod]
-        public void StudentRepository_CurrentStudents_Test()
+        [DataTestMethod]
+        [DynamicData(nameof(CurrentStudentsTestData), DynamicDataSourceType.Method)]
+        public void StudentRepository_CurrentStudents_Test(DateTime now, int expectedLength)
         {
             var allStudents = new Student[]
             {
@@ -91,22 +93,18 @@ namespace SchoolDatabase.Tests
 
             var dateTimeMock = new Mock<IDateTime>();
             dateTimeMock.Setup(d => d.Now)
-                .Returns(new DateTime(2020, 7, 31));
+                .Returns(now);
 
             var studentRepository = new StudentRepository(schoolContextMock.Object, dateTimeMock.Object);
-            CollectionAssert.AreEqual(allStudents, studentRepository.CurrentStudents.ToArray());
-
-            dateTimeMock.Setup(d => d.Now)
-                .Returns(new DateTime(2020, 8, 1));
-            studentRepository = new StudentRepository(schoolContextMock.Object, dateTimeMock.Object);
-            CollectionAssert.AreEqual(new[] { allStudents[0] },
+            CollectionAssert.AreEqual(allStudents.Take(expectedLength).ToArray(),
                 studentRepository.CurrentStudents.ToArray());
+        }
 
-            dateTimeMock.Setup(d => d.Now)
-                .Returns(new DateTime(2021, 8, 1));
-            studentRepository = new StudentRepository(schoolContextMock.Object, dateTimeMock.Object);
-            Assert.AreEqual(0,
-                studentRepository.CurrentStudents.ToArray().Length);
+        private static IEnumerable<object[]> CurrentStudentsTestData()
+        {
+            yield return new object[] { new DateTime(2020, 7, 31), 2 };
+            yield return new object[] { new DateTime(2020, 8, 1), 1 };
+            yield return new object[] { new DateTime(2021, 8, 1), 0 };
         }
     }
 }
