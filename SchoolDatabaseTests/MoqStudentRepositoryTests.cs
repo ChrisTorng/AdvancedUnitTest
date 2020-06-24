@@ -52,7 +52,15 @@ namespace SchoolDatabase.Tests
         [TestMethod]
         public void StudentRepository_CurrentStudentsStartDate_Test()
         {
-            Assert.AreEqual(new DateTime(2017, 8, 1), StudentRepository.CurrentStudentsStartDate);
+            using var schoolContext = new MockSchoolDatabase();
+            var dateTime = new MockDateTime(new DateTime(2020, 7, 31));
+
+            var studentRepository = new StudentRepository(schoolContext, dateTime);
+            Assert.AreEqual(new DateTime(2017, 8, 1), studentRepository.CurrentStudentsStartDate);
+
+            dateTime = new MockDateTime(new DateTime(2020, 8, 1));
+            studentRepository = new StudentRepository(schoolContext, dateTime);
+            Assert.AreEqual(new DateTime(2018, 8, 1), studentRepository.CurrentStudentsStartDate);
         }
     }
 }

@@ -6,20 +6,22 @@ namespace SchoolDatabase
     public class StudentRepository
     {
         private readonly ISchoolDatabase schoolDatabase;
+        private readonly IDateTime dateTime;
 
-        public StudentRepository(ISchoolDatabase schoolDatabase)
+        public StudentRepository(ISchoolDatabase schoolDatabase, IDateTime dateTime = null)
         {
             this.schoolDatabase = schoolDatabase;
+            this.dateTime = dateTime ?? new DefaultDateTime();
         }
 
         public IQueryable<Student> AllStudents =>
             this.schoolDatabase.Students;
 
-        public static DateTime CurrentStudentsStartDate
+        public DateTime CurrentStudentsStartDate
         {
             get
             {
-                var isNextYear = DateTime.Now.Month < 8;
+                var isNextYear = this.dateTime.Now.Month < 8;
                 var thisYearStartDate = isNextYear
                     ? new DateTime(DateTime.Now.Year - 1, 8, 1)
                     : new DateTime(DateTime.Now.Year, 8, 1);
@@ -29,6 +31,6 @@ namespace SchoolDatabase
 
         public IQueryable<Student> CurrentStudents =>
             this.schoolDatabase.Students.Where(s =>
-                s.EnrollmentDate >= CurrentStudentsStartDate);
+                s.EnrollmentDate >= this.CurrentStudentsStartDate);
     }
 }
