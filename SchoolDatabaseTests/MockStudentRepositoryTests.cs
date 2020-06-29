@@ -48,7 +48,7 @@ namespace SchoolDatabase.Tests
             Assert.AreEqual(new DateTime(3, 3, 3), student.EnrollmentDate);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(2020, 7, 31, 2017, 8, 1)]
         [DataRow(2020, 8, 1, 2018, 8, 1)]
         [DataRow(2021, 8, 1, 2019, 8, 1)]
@@ -64,7 +64,7 @@ namespace SchoolDatabase.Tests
                 studentRepository.CurrentStudentsStartDate);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DynamicData(nameof(CurrentStudentsTestData), DynamicDataSourceType.Method)]
         public void StudentRepository_CurrentStudents_Test(DateTime now, int expectedLength)
         {
