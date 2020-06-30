@@ -51,7 +51,7 @@ namespace AdvancedUnitTest.Controllers
                 _ => students.OrderBy(s => s.LastName),
             };
 
-            return this.View(students.AsNoTracking().ToList());
+            return this.View(students.AsNoTracking().ToArray());
         }
 
         public IActionResult Privacy()
