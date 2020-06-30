@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using AdvancedUnitTest.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +52,17 @@ namespace AdvancedUnitTest.Controllers
                 _ => students.OrderBy(s => s.LastName),
             };
 
-            return this.View(students.AsNoTracking().ToArray());
+            return this.View(nameof(this.Index), students.AsNoTracking().ToArray());
+        }
+
+        public IActionResult Index2([FromBody] HomeIndexModel model)
+        {
+            if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            return this.Index(model.SortOrder, model.SearchString);
         }
 
         public IActionResult Privacy()
