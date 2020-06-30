@@ -23,6 +23,8 @@ namespace AdvancedUnitTest.Controllers
 
         public IActionResult Index(string sortOrder, string searchString)
         {
+            this.logger.LogInformation($"{nameof(HomeController)}.{nameof(this.Index)}({sortOrder},{searchString})");
+
             this.ViewData["NameSortParm"] =
                 string.IsNullOrEmpty(sortOrder) ? "name_desc" : string.Empty;
 
