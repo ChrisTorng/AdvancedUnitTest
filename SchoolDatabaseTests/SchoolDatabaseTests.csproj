@@ -6,24 +6,23 @@
     <CodeAnalysisRuleSet>..\Common.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <Compile Remove="FakesAssemblies\**" />
     <EmbeddedResource Remove="FakesAssemblies\**" />
     <None Remove="FakesAssemblies\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Fakes\SchoolDatabase.fakes" />
-    <None Remove="Fakes\System.Runtime.fakes" />
+    <None Remove="Fakes\SchoolDatabase.fakes_" />
+    <None Remove="Fakes\System.Runtime.fakes_" />
   </ItemGroup>
+  <ItemGroup>
+    <Fakes Include="Fakes\System.Runtime.fakes_" />
+    <Fakes Include="Fakes\SchoolDatabase.fakes_" />
+  </ItemGroup>-->
 
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Fakes Include="Fakes\System.Runtime.fakes" />
-    <Fakes Include="Fakes\SchoolDatabase.fakes" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +32,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.5" />
-    <PackageReference Include="Microsoft.QualityTools.Testing.Fakes" Version="16.6.2-beta.20207.6" />
+    <!--<PackageReference Include="Microsoft.QualityTools.Testing.Fakes" Version="16.6.2-beta.20207.6" />-->
     <PackageReference Include="Moq" Version="4.14.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164">
       <PrivateAssets>all</PrivateAssets>
@@ -52,7 +51,7 @@
     <ProjectReference Include="..\SchoolDatabase\SchoolDatabase.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <Reference Include="SchoolDatabase.Fakes">
       <HintPath>FakesAssemblies\SchoolDatabase.Fakes.dll</HintPath>
       <Private>True</Private>
@@ -61,6 +60,5 @@
       <HintPath>FakesAssemblies\System.Runtime.Fakes.dll</HintPath>
       <Private>True</Private>
     </Reference>
-  </ItemGroup>
-
+  </ItemGroup>-->
 </Project>
