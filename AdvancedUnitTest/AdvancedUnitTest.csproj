@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <CodeAnalysisRuleSet>..\Common.ruleset</CodeAnalysisRuleSet>
+    <Nullable>Enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

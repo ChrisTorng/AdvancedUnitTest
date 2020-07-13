@@ -22,7 +22,7 @@ namespace AdvancedUnitTest.Controllers
             this.studentRepository = studentRepository;
         }
 
-        public IActionResult Index(string sortOrder, string searchString)
+        public IActionResult Index(string? sortOrder, string? searchString)
         {
             this.logger.LogInformation($"{nameof(HomeController)}.{nameof(this.Index)}({sortOrder},{searchString})");
 

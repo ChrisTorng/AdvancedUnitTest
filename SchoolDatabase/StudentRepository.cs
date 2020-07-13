@@ -8,7 +8,7 @@ namespace SchoolDatabase
         private readonly ISchoolDatabase schoolDatabase;
         private readonly IDateTime dateTime;
 
-        public StudentRepository(ISchoolDatabase schoolDatabase, IDateTime dateTime = null)
+        public StudentRepository(ISchoolDatabase schoolDatabase, IDateTime? dateTime = null)
         {
             this.schoolDatabase = schoolDatabase;
             this.dateTime = dateTime ?? new DefaultDateTime();

@@ -6,7 +6,7 @@ namespace SchoolDatabase.Tests
 {
     internal class MockSchoolDatabase : ISchoolDatabase
     {
-        public MockSchoolDatabase(IEnumerable<Student> students = null)
+        public MockSchoolDatabase(IEnumerable<Student>? students = null)
         {
             this.Students = students?.AsQueryable() ?? Array.Empty<Student>().AsQueryable();
         }

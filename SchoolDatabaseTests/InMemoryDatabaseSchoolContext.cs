@@ -13,7 +13,7 @@ namespace SchoolDatabase.Tests
         public IQueryable<Student> Students =>
             this.schoolContext.Students;
 
-        public InMemoryDatabaseSchoolContext(IEnumerable<Student> students = null)
+        public InMemoryDatabaseSchoolContext(IEnumerable<Student>? students = null)
         {
             this.schoolContext = new SchoolContext(new DbContextOptionsBuilder<SchoolContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())

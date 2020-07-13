@@ -10,7 +10,7 @@ namespace SchoolDatabase
         {
         }
 
-        public DbSet<Student> Students { get; set; }
+        public DbSet<Student> Students { get; set; } = null!;
 
         IQueryable<Student> ISchoolDatabase.Students =>
             this.Students;

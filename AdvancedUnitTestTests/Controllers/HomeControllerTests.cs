@@ -23,10 +23,10 @@ namespace AdvancedUnitTest.Controllers.Tests
             var actionResult = controller.Index(null, null);
             Assert.IsInstanceOfType(actionResult, typeof(ViewResult));
 
-            var viewResult = actionResult as ViewResult;
+            var viewResult = (actionResult as ViewResult)!;
             Assert.IsInstanceOfType(viewResult.Model, typeof(Student[]));
 
-            var students = viewResult.Model as Student[];
+            var students = (viewResult.Model as Student[])!;
             Assert.AreEqual(0, students.Length);
         }
 
@@ -71,10 +71,10 @@ namespace AdvancedUnitTest.Controllers.Tests
             var actionResult = controller.Index(null, null);
             Assert.IsInstanceOfType(actionResult, typeof(ViewResult));
 
-            var viewResult = actionResult as ViewResult;
+            var viewResult = (actionResult as ViewResult)!;
             Assert.IsInstanceOfType(viewResult.Model, typeof(Student[]));
 
-            var students = viewResult.Model as Student[];
+            var students = (viewResult.Model as Student[])!;
             Assert.AreEqual(3, students.Length);
             Assert.AreEqual(allStudents[0], students[0]);
             Assert.AreEqual(allStudents[1], students[2]);
@@ -122,10 +122,10 @@ namespace AdvancedUnitTest.Controllers.Tests
             var actionResult = controller.Index("date_desc", "3");
             Assert.IsInstanceOfType(actionResult, typeof(ViewResult));
 
-            var viewResult = actionResult as ViewResult;
+            var viewResult = (actionResult as ViewResult)!;
             Assert.IsInstanceOfType(viewResult.Model, typeof(Student[]));
 
-            var students = viewResult.Model as Student[];
+            var students = (viewResult.Model as Student[])!;
             Assert.AreEqual(2, students.Length);
             Assert.AreEqual(allStudents[2], students[0]);
             Assert.AreEqual(allStudents[1], students[1]);

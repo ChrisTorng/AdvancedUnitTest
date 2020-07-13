@@ -25,7 +25,7 @@ namespace SchoolDatabase.Tests
             return connection;
         }
 
-        public InMemorySqliteSchoolContext(IEnumerable<Student> students = null)
+        public InMemorySqliteSchoolContext(IEnumerable<Student>? students = null)
         {
             this.connection = CreateInMemoryDatabase();
             this.schoolContext = new SchoolContext(new DbContextOptionsBuilder<SchoolContext>()
