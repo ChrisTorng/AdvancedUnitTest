@@ -24,10 +24,11 @@ namespace SchoolDatabase.Tests
             this.schoolContext.Database.EnsureCreated();
 
             this.transaction = this.schoolContext.Database.BeginTransaction();
-            this.schoolContext.Database.ExecuteSqlRaw("DELETE FROM Students");
 
             if (students != null)
             {
+                this.schoolContext.Database.ExecuteSqlRaw("DELETE FROM Students");
+
                 this.schoolContext.Students.AddRange(students);
                 this.schoolContext.SaveChanges();
             }

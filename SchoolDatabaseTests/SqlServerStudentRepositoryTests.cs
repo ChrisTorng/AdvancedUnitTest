@@ -11,7 +11,7 @@ namespace SchoolDatabase.Tests
         [TestMethod]
         public void StudentRepository_EmptyAllStudents_Test()
         {
-            using var schoolContext = new SqlServerSchoolContext();
+            using var schoolContext = new SqlServerSchoolContext(Array.Empty<Student>());
 
             var studentRepository = new StudentRepository(schoolContext);
             Assert.IsFalse(studentRepository.AllStudents.Any());
